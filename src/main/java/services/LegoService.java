@@ -51,6 +51,6 @@ public class LegoService {
 		List<Lego> list=q.getResultList();
 		em.getTransaction().commit();
 		Lego lego=list.get(0);
-		return lego.getId()+"#"+lego.getRun()+"#"+lego.getSpeed()+"#"+lego.getTurn();
+		return lego.getId()+"#"+lego.getRun()+"#"+lego.getSpeed()+"#"+lego.getTurn()+"#"+lego.getParkingMode()+"#"+lego.getObstacleDistance();
 	}
 }

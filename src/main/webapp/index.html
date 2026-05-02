@@ -14,6 +14,9 @@
   lego.speed=0;
   lego.turn=0;
   lego.aika=0;
+  lego.parkingMode=0;
+  lego.obstacleDistance=0.20;
+
   function sendData(form){
 		// lego.speed=form.speed.value;
 		var json=JSON.stringify(lego);
@@ -29,7 +32,23 @@
 		xhttp.open("POST","/rest/lego/setvalues",true);
 		xhttp.setRequestHeader("Content-type","application/json");
 		xhttp.send(json);
-	}
+  }
+
+  function parkingOn(form){
+    lego.parkingMode=1;
+    sendData(form);
+  }
+
+  function parkingOff(form){
+    lego.parkingMode=0;
+    sendData(form);
+  }
+
+  function setObstacleDistance(form){
+    lego.obstacleDistance=parseFloat(form.obstacleDistance.value);
+    sendData(form);
+  }
+
   function turnLeft(form){
 	  lego.turn=lego.turn-10;
 	  sendData(form);
@@ -69,6 +88,15 @@
 	<input type='button' name='stop' value='STOP' onclick='stoplego(this.form);'>
 	<input type='button' name='start' value='START' onclick='startlego(this.form);'>
 	<!-- <input type='button' name='ok' value='OK' onclick='sendData(this.form);'> -->
+
+	<br><br>
+
+	Obstacle distance:
+	<input type='text' name='obstacleDistance' value='0.20'>
+	<input type='button' value='Set distance' onclick='setObstacleDistance(this.form);'>
+	<br><br>
+	<input type='button' value='Parking ON' onclick='parkingOn(this.form);'>
+	<input type='button' value='Parking OFF' onclick='parkingOff(this.form);'>
 	</form>
 	<p id='settings'>
 	</p>

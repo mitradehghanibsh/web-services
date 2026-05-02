@@ -19,6 +19,25 @@ public class Lego {
 	private int turn;
 	private Timestamp aika=new Timestamp(System.currentTimeMillis());
 
+	private int parkingMode;
+	private float obstacleDistance;
+
+	public int getParkingMode() {
+    return parkingMode;
+	}
+
+	public void setParkingMode(int parkingMode) {
+		this.parkingMode = parkingMode;
+	}
+
+	public float getObstacleDistance() {
+		return obstacleDistance;
+	}
+
+	public void setObstacleDistance(float obstacleDistance) {
+    	this.obstacleDistance = obstacleDistance;
+	}
+
 	public int getId() {
 		return id;
 	}
