@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Robot Parking Statistics</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 40px; background-color: #f4f4f9;}
+        h1 { color: #333; }
+        table { border-collapse: collapse; width: 80%; margin-top: 20px; background-color: white; }
+        th, td { border: 1px solid #ddd; padding: 12px; text-align: center; }
+        th { background-color: #4CAF50; color: white; }
+        tr:nth-child(even){background-color: #f2f2f2;}
+        .refresh-btn { padding: 10px 20px; font-size: 16px; background-color: #008CBA; color: white; border: none; cursor: pointer; border-radius: 5px; }
+        .refresh-btn:hover { background-color: #005f73; }
+    </style>
+</head>
+<body>
+
+    <h1>Lego Robot Incident Log</h1>
+    <p>This table displays a history of all recorded robot events.</p>
+    
+    <button class="refresh-btn" onclick="fetchData()">Refresh Statistics</button>
+
+    <table id="statsTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Incident Info</th>
+                <th>Speed at Incident</th>
+                <th>Turn Value</th>
+                <th>Obstacle Distance</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+        </tbody>
+    </table>
+
+    <script>
+        function fetchData() {
+            fetch('http://10.95.162.86:8080/rest/lego/getall')
+            .then(response => response.json())
+            .then(data => {
+                let tableBody = "";
+                data.forEach(row => {
+                    let displayInfo = row.info ? row.info : "Normal Run";
+                    tableBody += `<tr>
+                        <td>${row.id}</td>
+                        <td><strong>${displayInfo}</strong></td>
+                        <td>${row.speed}</td>
+                        <td>${row.turn}</td>
+                        <td>${row.obstacleDistance}</td>
+                    </tr>`;
+                });
+                document.getElementById('tableBody').innerHTML = tableBody;
+            })
+            .catch(error => {
+                console.error('Error fetching data:', error);
+                document.getElementById('tableBody').innerHTML = "<tr><td colspan='5'>Error loading data. Make sure the server is running.</td></tr>";
+            });
+        }
+        window.onload = fetchData;
+    </script>
+</body>
+</html>

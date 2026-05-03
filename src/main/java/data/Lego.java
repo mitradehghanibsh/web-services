@@ -1,7 +1,6 @@
 package data;
 
 import java.sql.Timestamp;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,62 +10,71 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name="lego")
 public class Lego {
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int id;
-	private int run;
-	private int speed;
-	private int turn;
-	private Timestamp aika=new Timestamp(System.currentTimeMillis());
+    @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    private int id;
+    private int run;
+    private int speed;
+    private int turn;
+    private Timestamp aika = new Timestamp(System.currentTimeMillis());
 
-	private int parkingMode;
-	private float obstacleDistance;
+    private int parkingMode;
+    private float obstacleDistance;
+    private String info;
 
-	public int getParkingMode() {
-    return parkingMode;
-	}
+    public String getInfo() {
+        return info;
+    }
 
-	public void setParkingMode(int parkingMode) {
-		this.parkingMode = parkingMode;
-	}
+    public void setInfo(String info) {
+        this.info = info;
+    }
 
-	public float getObstacleDistance() {
-		return obstacleDistance;
-	}
+    public int getParkingMode() {
+        return parkingMode;
+    }
 
-	public void setObstacleDistance(float obstacleDistance) {
-    	this.obstacleDistance = obstacleDistance;
-	}
+    public void setParkingMode(int parkingMode) {
+        this.parkingMode = parkingMode;
+    }
 
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public int getRun() {
-		return run;
-	}
-	public void setRun(int run) {
-		this.run = run;
-	}
-	public int getSpeed() {
-		return speed;
-	}
-	public void setSpeed(int speed) {
-		this.speed = speed;
-	}
-	public int getTurn() {
-		return turn;
-	}
-	public void setTurn(int turn) {
-		this.turn = turn;
-	}
+    public float getObstacleDistance() {
+        return obstacleDistance;
+    }
 
-	public Timestamp getAika() {
-		return aika;
-	}
-	public void setAika(Timestamp aika) {
-		this.aika = aika;
-	}
+    public void setObstacleDistance(float obstacleDistance) {
+        this.obstacleDistance = obstacleDistance;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public int getRun() {
+        return run;
+    }
+    public void setRun(int run) {
+        this.run = run;
+    }
+    public int getSpeed() {
+        return speed;
+    }
+    public void setSpeed(int speed) {
+        this.speed = speed;
+    }
+    public int getTurn() {
+        return turn;
+    }
+    public void setTurn(int turn) {
+        this.turn = turn;
+    }
+
+    public Timestamp getAika() {
+        return aika;
+    }
+    public void setAika(Timestamp aika) {
+        this.aika = aika;
+    }
 }
