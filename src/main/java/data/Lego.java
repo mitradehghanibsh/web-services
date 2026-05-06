@@ -20,7 +20,7 @@ public class Lego {
 
     private int parkingMode;
     private float obstacleDistance;
-    private String info;
+    private String info="Lego 15";
 
     public String getInfo() {
         return info;
