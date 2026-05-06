@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Dashboard </title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f6f8;
+      margin: 0;
+      padding: 20px;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #222;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+    .card {
+      background: white;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+    .label {
+      color: #666;
+      font-size: 14px;
+    }
+    .value {
+      font-size: 28px;
+      font-weight: bold;
+      margin-top: 8px;
+      color: #111;
+    }
+    .status-on { color: green; }
+    .status-off { color: red; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Dashboard</h1>
+
+    <div class="grid">
+      <div class="card">
+        <div class="label">Run Status</div>
+        <div id="run" class="value">-</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Speed</div>
+        <div id="speed" class="value">-</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Turn</div>
+        <div id="turn" class="value">-</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Obstacle Distance</div>
+        <div id="distance" class="value">-</div>
+      </div>
+
+      <div class="card">
+        <div class="label">Parking Mode</div>
+        <div id="parking" class="value">-</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    async function loadRobotData() {
+      try {
+        const response = await fetch('http://10.95.162.86:8080/rest/lego/getvalues');
+        const text = await response.text();
+        const values = text.trim().split('#');
+        const speed = parseInt(values[2]) || 0;
+        drawGauge(speed);
+        document.getElementById('run').textContent = values[1] === '1' ? 'Active' : 'Inactive';
+        document.getElementById('run').className = 'value ' + (values[1] === '1' ? 'status-on' : 'status-off');
+
+        document.getElementById('speed').textContent = values[2];
+        document.getElementById('turn').textContent = values[3];
+        document.getElementById('parking').textContent = values[4] === '1' ? 'On' : 'Off';
+        document.getElementById('distance').textContent = values[5] || '-';
+      } catch (error) {
+        console.error('Error fetching robot data:', error);
+      }
+    }
+
+    loadRobotData();
+    setInterval(loadRobotData, 1000);
+  </script>
+  <script>
+const canvas = document.getElementById('speedGauge');
+const ctx = canvas.getContext('2d');
+
+function drawGauge(speed) {
+    const maxSpeed = 100; // حداکثر سرعت
+    const angle = (speed / maxSpeed) * Math.PI;
+
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Semicircle
+    ctx.beginPath();
+    ctx.arc(150, 150, 100, Math.PI, 0);
+    ctx.strokeStyle = '#444';
+    ctx.lineWidth = 10;
+    ctx.stroke();
+
+    // Angle Indicator
+    const x = 150 + 90 * Math.cos(Math.PI - angle);
+    const y = 150 - 90 * Math.sin(Math.PI - angle);
+
+    ctx.beginPath();
+    ctx.moveTo(150, 150);
+    ctx.lineTo(x, y);
+    ctx.strokeStyle = '#22c55e';
+    ctx.lineWidth = 4;
+    ctx.stroke();
+
+    // Speed Text
+    ctx.fillStyle = 'white';
+    ctx.font = '20px Arial';
+    ctx.textAlign = 'center';
+    ctx.fillText(speed + ' km/h', 150, 100);
+}
+</script>
+<canvas id="speedGauge" width="300" height="150" style="display:block;margin:30px auto;"></canvas>
+</body>
+</html>
